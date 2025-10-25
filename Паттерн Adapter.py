@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 
-
 # Интерфейс Транспорт
 class Transport(ABC):
     @abstractmethod
@@ -48,8 +47,6 @@ class Saddle(Transport):
         # Адаптируем интерфейс Осла к интерфейсу Транспорта
         return f"Осёл с седлом движется по {road.get_road_type()} ({self._donkey.walk()})"
 
-
-# Демонстрация работы
 if __name__ == "__main__":
     # Создаем дороги
     highway = ConcreteRoad("шоссе")

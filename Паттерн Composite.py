@@ -1,11 +1,9 @@
 from abc import ABC, abstractmethod
 
-
 class Component(ABC):
     @abstractmethod
     def get_price(self):
         pass
-
 
 class Product(Component):
     def __init__(self, name, price):
@@ -14,7 +12,6 @@ class Product(Component):
 
     def get_price(self):
         return self.price
-
 
 class Box(Component):
     def __init__(self, name, packing_cost=0):
@@ -35,7 +32,6 @@ class Box(Component):
         return total
 
 
-# Пример использования
 if __name__ == "__main__":
     # Создаем продукты
     phone = Product("Телефон", 22700)
@@ -43,19 +39,19 @@ if __name__ == "__main__":
     charger = Product("Зарядка", 500)
 
     # Создаем маленькую коробку для аксессуаров
-    accessories_box = Box("Accessories Box", 2)
+    accessories_box = Box("Коробка аксессуаров", 2)
     accessories_box.add(headphones)
     accessories_box.add(charger)
 
     # Создаем большую коробку для заказа
-    main_box = Box("Main Box", 5)
+    main_box = Box("Главная коробка", 5)
     main_box.add(phone)
     main_box.add(accessories_box)
 
     # Создаем заказ и добавляем в него коробки и продукты
-    order = Box("Order")  # Упаковка заказа бесплатна
+    order = Box("Заказ")  # Упаковка заказа бесплатна
     order.add(main_box)
-    order.add(Product("Insurance", 50))
+    order.add(Product("Страхование", 50))
 
     # Вычисляем общую стоимость заказа
     print(f"Конечная цена заказа: {order.get_price()} руб")

@@ -1,9 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Dict, Any, List
 
-
-# Классы, представляющие различные базы данных (сложные подсистемы)
-
 class UserDatabase:
     """Сложная подсистема для работы с базой данных пользователей"""
 
@@ -51,8 +48,8 @@ class OrderDatabase:
     def __init__(self):
         self._connection = "MongoDB Connection - Orders"
         self._orders = [
-            {"id": 101, "user_id": 1, "product": "Laptop", "amount": 999.99},
-            {"id": 102, "user_id": 2, "product": "Phone", "amount": 499.99}
+            {"id": 101, "user_id": 1, "product": "Ноутбук", "amount": 15975},
+            {"id": 102, "user_id": 2, "product": "Телефон", "amount": 8755}
         ]
 
     def connect(self):
@@ -129,7 +126,6 @@ class DatabaseFacade:
         self._initialize_connections()
 
     def _initialize_connections(self):
-        """Инициализация подключений ко всем базам данных"""
         print("Инициализация подключений к базам данных...")
         self._user_db.connect()
         self._order_db.connect()
@@ -137,7 +133,6 @@ class DatabaseFacade:
         print("Все подключения установлены\n")
 
     def close_connections(self):
-        """Закрытие всех подключений"""
         print("Закрытие подключений к базам данных...")
         self._user_db.disconnect()
         self._order_db.disconnect()

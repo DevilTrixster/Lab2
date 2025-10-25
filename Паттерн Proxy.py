@@ -1,13 +1,11 @@
 from abc import ABC, abstractmethod
 import time
 
-
 # Интерфейс сервиса изображений (аналог IImage в .NET)
 class IImageService(ABC):
     @abstractmethod
     def display(self) -> str:
         pass
-
 
 # Реальный сервис загрузки изображений
 class HighResolutionImage(IImageService):
@@ -22,7 +20,6 @@ class HighResolutionImage(IImageService):
 
     def display(self) -> str:
         return f"Отображение высококачественного изображения: {self._filename}"
-
 
 # Proxy для ленивой загрузки и контроля доступа
 class ImageProxy(IImageService):
@@ -46,7 +43,6 @@ class ImageProxy(IImageService):
         return self._real_image.display()
 
 
-# Демонстрация
 def main():
     print("=== ДЕМОНСТРАЦИЯ PATTERN PROXY ===\n")
 

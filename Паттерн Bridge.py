@@ -1,20 +1,17 @@
 from abc import ABC, abstractmethod
 from datetime import datetime
 
-
 # Реализация (Implementor) - интерфейс для различных способов логирования
 class LoggerImplementation(ABC):
     @abstractmethod
     def log_message(self, message: str, level: str):
         pass
 
-
 # Конкретные реализации логирования
 class ConsoleLogger(LoggerImplementation):
     def log_message(self, message: str, level: str):
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         print(f"[{timestamp}] [{level}] {message}")
-
 
 class FileLogger(LoggerImplementation):
     def __init__(self, filename: str = "shop.log"):
@@ -25,7 +22,6 @@ class FileLogger(LoggerImplementation):
         with open(self.filename, 'a', encoding='utf-8') as f:
             f.write(f"[{timestamp}] [{level}] {message}\n")
 
-
 class DatabaseLogger(LoggerImplementation):
     def __init__(self, connection_string: str):
         self.connection_string = connection_string
@@ -35,7 +31,6 @@ class DatabaseLogger(LoggerImplementation):
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         # В реальной реализации здесь был бы код записи в БД
         print(f"DB LOG [{timestamp}] [{level}] {message}")
-
 
 # Абстракция (Abstraction) - базовый класс логирования для интернет-магазина
 class ShopLogger:
@@ -66,18 +61,17 @@ class ContextShopLogger(ShopLogger):
         super().log(enriched_message, level)
 
     def log_user_action(self, user_id: int, action: str):
-        self.info(f"User {user_id} performed: {action}")
+        self.info(f"Пользователь {user_id} исполняется: {action}")
 
     def log_purchase(self, user_id: int, order_id: int, amount: float):
-        self.info(f"User {user_id} purchased order {order_id} for ${amount:.2f}")
+        self.info(f"Пользователь {user_id} заказывает покупку {order_id} за {amount:.2f} руб")
 
 
 # Еще одна расширенная абстракция - логирование с производительностью
 class PerformanceShopLogger(ShopLogger):
     def log_performance(self, operation: str, execution_time: float):
         level = "WARNING" if execution_time > 1.0 else "INFO"
-        self.log(f"Operation '{operation}' took {execution_time:.3f}s", level)
-
+        self.log(f"Операция '{operation}' выполняется за {execution_time:.3f}s", level)
 
 if __name__ == "__main__":
     # Создаем различные реализации логирования
@@ -116,40 +110,3 @@ if __name__ == "__main__":
     # Переключаемся на БД
     dynamic_logger._implementation = db_logger
     dynamic_logger.info("И теперь в базу данных")
-
-
-# Пример использования в реальном классе магазина
-class OnlineShop:
-    def __init__(self, logger: ShopLogger):
-        self.logger = logger
-        self.logger.info("Онлайн-магазин инициализирован")
-
-    def process_order(self, user_id: int, order_data: dict):
-        self.logger.info(f"Начало обработки заказа для пользователя {user_id}")
-        # Логика обработки заказа...
-        self.logger.info(f"Заказ пользователя {user_id} успешно обработан")
-
-    def handle_error(self, error: Exception):
-        self.logger.error(f"Критическая ошибка: {str(error)}")
-
-
-# Пример интеграции
-if __name__ == "__main__":
-    print("\n" + "=" * 50)
-    print("ИНТЕГРАЦИЯ С МАГАЗИНОМ")
-    print("=" * 50)
-
-    # Создаем логгер для продакшена (пишем в файл)
-    production_logger = ContextShopLogger(FileLogger("production.log"), "SHOP")
-
-    # Создаем магазин с этим логгером
-    shop = OnlineShop(production_logger)
-
-    # Имитируем работу магазина
-    shop.process_order(789, {"item": "laptop", "price": 999.99})
-
-    try:
-        # Имитация ошибки
-        raise ConnectionError("Не удалось подключиться к складу")
-    except Exception as e:
-        shop.handle_error(e)

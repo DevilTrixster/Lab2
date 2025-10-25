@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Dict, Any
 
-
 # Абстрактный класс системы доставки
 class DeliverySystem(ABC):
     @abstractmethod

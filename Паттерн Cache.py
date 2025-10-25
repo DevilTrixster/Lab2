@@ -1,6 +1,5 @@
 class TreeType:
     """Внутреннее состояние (разделяемое) - тип дерева"""
-
     def __init__(self, name, color, texture):
         self.name = name
         self.color = color
